@@ -4,11 +4,20 @@ const User = require('../models/user.model');
 const { generateJWT } = require('../helpers/jwt.helper');
 
 const getUsers = async(req, res) => {
-    const users = await User.find({}, ['name', 'email', 'google']);
+    const since = Number(req.query.since) || 0;
+    const to = Number(req.query.to) || 10;
+
+    const [users, total] = await Promise.all([
+        User.find({}, ['name', 'email', 'google', 'img']).skip(since).limit(to),
+        User.count()
+    ]);
+
     res.json({
+        parametros: since + ' ' + to,
         ok: true,
         users,
-        _id: req._id
+        total,
+        _id: req._id,
     })
 }
 
