@@ -10,8 +10,6 @@ const verify = async(token) => {
     const { name, email, picture } = payload;
     const userid = payload['sub'];
     return { name, email, picture };
-    // If request specified a G Suite domain:
-    // const domain = payload['hd'];
 }
 
 module.exports = {
