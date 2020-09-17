@@ -11,7 +11,7 @@ const router = Router();
 router.use(fileUpload());
 
 router.put('/:table/:id', validationJWT, setImage);
-router.get('/:table/:photo', validationJWT, getImage);
+router.get('/:table/:photo', getImage);
 
 
 module.exports = router;

@@ -8,8 +8,8 @@ const getUsers = async(req, res) => {
     const to = Number(req.query.to) || 10;
 
     const [users, total] = await Promise.all([
-        User.find({}, ['name', 'email', 'google', 'img']).skip(since).limit(to),
-        User.count()
+        User.find({}, ['name', 'email', 'google', 'img', 'role']).skip(since).limit(to),
+        User.countDocuments()
     ]);
 
     res.json({
@@ -79,7 +79,7 @@ const updateUser = async(req = request, res) => {
             const new_user = await User.findByIdAndUpdate(id, data, { new: true });
             let data_user = {...new_user._doc };
             delete data_user.password;
-            return res.status(400).json({
+            return res.status(200).json({
                 ok: true,
                 user: data_user
             })

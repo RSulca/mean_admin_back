@@ -18,14 +18,15 @@ const login = async(req, res = response) => {
         }
         const validPassword = bcrypt.compareSync(password, data.password);
         if (!validPassword) {
-            res.json({
+            res.status(401).json({
                 ok: false,
-                message: 'Bye'
+                message: "User don't registered"
             });
         }
         const token = await generateJWT(data._id)
-        res.json({
+        res.status(200).json({
             ok: true,
+            message: 'Welcome',
             token
         });
     } catch (error) {
@@ -81,9 +82,15 @@ const refreshToken = async(req, res) => {
 
     const token = await generateJWT(id)
 
+    const userFinded = await User.findById(id);
+
+    let user = {...userFinded._doc };
+    delete user.password;
+
     return res.status(200).json({
         ok: true,
-        token
+        token,
+        user
     })
 
 }
