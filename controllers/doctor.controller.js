@@ -75,7 +75,7 @@ const deleteDoctor = async(req = request, res) => {
             })
         } else {
             const doctor = await Doctor.findByIdAndDelete(id);
-            return res.status(400).json({
+            return res.status(200).json({
                 ok: true,
                 doctor,
                 message: 'Doctor has been deleted.'

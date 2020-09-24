@@ -67,7 +67,7 @@ const deleteHospital = async(req = request, res) => {
             })
         } else {
             const hospital = await Hospital.findByIdAndDelete(id);
-            return res.status(400).json({
+            return res.status(200).json({
                 ok: true,
                 message: 'Hospital has been deleted.'
             })
