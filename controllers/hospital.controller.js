@@ -42,7 +42,7 @@ const updateHospital = async(req = request, res) => {
                 message: 'This hospital does not exist.'
             })
         } else {
-            return res.status(400).json({
+            return res.status(200).json({
                 ok: true,
                 hospital: hospital
             })

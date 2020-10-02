@@ -2,6 +2,28 @@ const { response, request } = require('express');
 const Doctor = require('../models/doctor.model');
 const Hospital = require('../models/hospital.model');
 
+const getDoctor = async(req, res) => {
+    try {
+        const id = req.params.id;
+        const doctor = await Doctor.findById(id).populate('user', 'name email').populate('hospital', 'name');
+        if (!doctor) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Doctor does not exist'
+            })
+        }
+        return res.json({
+            ok: true,
+            doctor
+        })
+    } catch (error) {
+        return res.json({
+            ok: false,
+            message: 'Error, please check logs.'
+        })
+    }
+}
+
 const getDoctors = async(req, res) => {
     const doctor = await Doctor.find().populate('user', 'name email').populate('hospital', 'name');
     res.json({
@@ -49,8 +71,8 @@ const updateDoctor = async(req = request, res) => {
                     message: 'This hospital does not exist.'
                 })
             }
-            const doctor = await Doctor.findByIdAndUpdate(id, { data, hospital }, { new: true });
-            return res.status(400).json({
+            const doctor = await Doctor.findByIdAndUpdate(id, req.body, { new: true });
+            return res.status(200).json({
                 ok: true,
                 user: doctor
             })
@@ -90,4 +112,4 @@ const deleteDoctor = async(req = request, res) => {
     }
 }
 
-module.exports = { getDoctors, createDoctor, updateDoctor, deleteDoctor };
+module.exports = { getDoctors, createDoctor, updateDoctor, deleteDoctor, getDoctor };

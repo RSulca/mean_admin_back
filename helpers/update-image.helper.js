@@ -28,8 +28,8 @@ const updateImage = async(table, id, path, unique_name) => {
             if (!hospital) {
                 return false;
             }
-            removePhoto(hospital.img);
-            hospital.img = path;
+            removePhoto(unique_name);
+            hospital.img = unique_name;
             await hospital.save();
             return true;
             break;
@@ -38,8 +38,8 @@ const updateImage = async(table, id, path, unique_name) => {
             if (!doctor) {
                 return false;
             }
-            removePhoto(doctor.img);
-            doctor.img = path;
+            removePhoto(unique_name);
+            doctor.img = unique_name;
             await doctor.save();
             return true;
             break;
